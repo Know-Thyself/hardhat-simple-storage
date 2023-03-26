@@ -23,4 +23,22 @@ describe("SimpleStorage", function () {
 		const currentValue = await simpleStorage.retrieve()
 		assert.equal(currentValue.toString(), expectedValue)
 	})
+
+	it("Should push to people array", async function () {
+		const personAndFavoriteNumber = { name: "Biruk", number: "7" }
+		const transactionResponse = await simpleStorage.addPerson(
+			personAndFavoriteNumber.name,
+			personAndFavoriteNumber.number
+		)
+		await transactionResponse.wait(1)
+		const favoriteNumber = await simpleStorage.nameToFavoriteNumber(
+			personAndFavoriteNumber.name
+		)
+		expect(favoriteNumber).to.equal(personAndFavoriteNumber.number)
+	})
+
+	it("Should return the result of 1 + 1", async function () {
+		const transactionResponse = await simpleStorage.add()
+		expect(transactionResponse).to.equal(2)
+	})
 })
